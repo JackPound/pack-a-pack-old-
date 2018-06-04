@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="pageHead">pack-a-pack</h1>
+<p class="indexIntro">An app to plan out space and track what's in your backpack!</p>
+
+<hr />
+<form method="POST" action="." class="loginForm">
+	<p> Login Here </p>
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="Login" />
+</form>
+<hr />
+
+<p class="signupInfo">If you do not have an account signup <a href="/signup">here</a> </p>
+
+{% endblock %}

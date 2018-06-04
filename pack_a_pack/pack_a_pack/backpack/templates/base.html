@@ -1,0 +1,23 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>pack-a-pack</title>
+ 	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+	<nav class="navbar">
+		<a href="/">Home</a>
+		<a href="{% url 'backpacks' %}">Packs</a>
+		<a href="{% url 'trips' %}">Trips</a>
+		<a href="{% url 'signout' %}">Logout</a>
+		{{user.username }}
+	</nav>
+	{% block content %}
+	{% endblock %}
+
+	<footer class="footer">jack p</footer>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="{% static 'app.js' %}"></script>
+</body>
+</html>
