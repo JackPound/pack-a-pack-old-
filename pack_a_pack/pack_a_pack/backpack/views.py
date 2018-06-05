@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User 
+from .models import Trip, Backpack, Profile, Item
 from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm, SignupForm
 # Create your views here.
@@ -21,6 +22,7 @@ def signup(request):
 	else:
 		form = SignupForm()
 		return render(request, 'signup.html', {'form': form})
+
 def index(request):
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
@@ -41,7 +43,12 @@ def index(request):
 		return render(request, 'index.html', {'form': form})
 
 def trips(request):
-	return render(request, 'trips.html')
+	this_user = Profile.objects.get(user=request.user)
+	trips = Trip.objects.filter(profile=this_user)
+
+	
+	print(trips)
+	return render(request, 'trips.html', {'trips': trips})
 
 def trip(request, trip_id):
 	return render(request, 'trip.html', {'trip': trip_id})
@@ -49,3 +56,10 @@ def trip(request, trip_id):
 def backpacks(request):
 	return render(request, 'backpacks.html')
 
+ #  	{% for trip in trips %}
+	# 	<p>Trip name: {{ trip.name }}</p>
+	# 	<p>Location: {{trip.location}}</p>
+	# 	<p>Backpacks: {{trip.backpacks}}</p>
+	# 	<p>Notes: {{trip.notes}}</p>
+	# 	<hr />
+	# {% endfor %}

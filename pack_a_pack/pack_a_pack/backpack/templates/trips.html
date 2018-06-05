@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1 class="pageHead">TRIPS</h1>
-
+	<h1 class="pageHead">TRIPS</h1>
+  	{% for trip in trips %}
+		<p>Trip name: {{ trip.name }}</p>
+		<p>Location: {{trip.location}}</p>
+		<p>Backpacks: {{trip.backpacks}}</p>
+		<p>Notes: {{trip.notes}}</p>
+		<hr />
+	{% endfor %}
+		<hr />
 {% endblock %}

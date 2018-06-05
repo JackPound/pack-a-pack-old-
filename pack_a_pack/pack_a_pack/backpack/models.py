@@ -4,6 +4,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 # Create your models here.
 
+class Profile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	def __str__(self):
+		return self.user.username
 
 class Item(models.Model):
 	name = models.CharField(max_length=100)
@@ -16,6 +20,7 @@ class Backpack(models.Model):
 	name = models.CharField(max_length=100)
 	size = models.IntegerField()
 	items = models.ManyToManyField(Item, blank=True)
+	profile = models.ForeignKey(Profile, blank=True, null=True, on_delete=models.CASCADE)
 	def __str__(self):
 		return self.name
 
@@ -24,15 +29,10 @@ class Trip(models.Model):
 	location = models.CharField(max_length=100)
 	notes = models.CharField(max_length=300)
 	backpacks = models.ManyToManyField(Backpack, blank=True)
+	profile = models.ForeignKey(Profile, blank=True, null=True, on_delete=models.CASCADE)
 	def __str__(self):
 		return self.name
 	
-class Profile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	backpacks = models.ForeignKey(Backpack, blank=True, null=True, on_delete=models.CASCADE)
-	trips = models.ForeignKey(Trip, blank=True, null=True, on_delete=models.CASCADE)
-	def __str__(self):
-		return self.user.username
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
