@@ -14,3 +14,7 @@ class TripForm(forms.Form):
 	name = forms.CharField(label='Trip Name', max_length=100)
 	location = forms.CharField(label='Trip Location', max_length=100)
 	notes = forms.CharField(max_length=300)
+
+class BackpackForm(forms.Form):
+	name = forms.CharField(label='Backpack Name', max_length=100)
+	size = forms.IntegerField()

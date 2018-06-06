@@ -1,3 +1,13 @@
+body {
+	background-image: url('/static/mtn.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-size: auto 100%;
+	height: 100%;
+}
+html {
+	height: 100%;
+}
 .footer {
 	position: fixed;
 	bottom: 0;
@@ -24,6 +34,7 @@
 }
 .loginForm {
 	text-align: center;
+	background-color: lightgrey;
 }
 .signupInfo {
 	text-align: center;
@@ -32,8 +43,43 @@
 	width: 60%;
 	text-align: justify;
 	margin: auto;
+	background-color: lightgrey;
+}
+.singlePack {
+	display: inline-block;
+	width:45%; height:150px;
+	border: 3px solid black;
+	background-color: lightgrey;
+}
+.oneTrip {
+	display: inline-block;
+	width:45%; height:100px;
+	border: 3px solid black;
+	background-color: lightgrey;	
 }
 .desc {
 	font-weight: bold;
 	font-size: 1.1em;
+}
+.tripForm {
+	background-color: lightgrey;
+}
+.backpackForm {
+	background-color: lightgrey;
+	width: 60%;
+	margin: auto;
+	text-align: center;
+}
+.packedItems {
+	display: inline-block;
+	width: 20%;
+	background-color: lightgrey;
+}
+.allItems {
+	display: inline-block;
+	width: 20%;
+	background-color: lightgrey;
+}
+.packView {
+	text-align: center;
 }

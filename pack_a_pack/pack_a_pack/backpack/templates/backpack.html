@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="pageHead">{{ trip }}</h1>
+<div class="packView">
+	<h1>{{pack.name}}</h1>
+	<p style="font-weight:bold;">Total Space: {{pack.size}} || Used Space: {{pack.current_volume}} || Remaining Space: {{pack.remaining_volume}}</p>
+</div>
+<div class="packedItems">
+	Name Size Remove
+	{% for item in packed_items %}
+		<div class="oneItem">
+			{{item}} {{item.size}} <a href='#'>x</a>
+		</div>
+	{% endfor %}
+</div>
+<div class="allItems">
+	Name Size Add
+	{% for item in all_items %}
+		<div class="oneItem">
+			{{item}} {{item.size}} <a href='/pack_item/{{pack.id}}/{{item.id}}/'>+</a>
+		</div>
+	{% endfor %}
+</div>
+{% endblock %}

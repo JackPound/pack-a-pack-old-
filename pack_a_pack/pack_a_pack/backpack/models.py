@@ -9,6 +9,15 @@ class Profile(models.Model):
 	def __str__(self):
 		return self.user.username
 
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+	if created:
+		Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+	instance.profile.save()
+
 class Item(models.Model):
 	name = models.CharField(max_length=100)
 	size = models.IntegerField()
@@ -16,13 +25,21 @@ class Item(models.Model):
 	def __str__(self):
 		return self.name
 
+	
 class Backpack(models.Model):
 	name = models.CharField(max_length=100)
 	size = models.IntegerField()
-	items = models.ManyToManyField(Item, blank=True)
+	packed_items = models.ManyToManyField(Item, through='Packed', blank=True)
 	profile = models.ForeignKey(Profile, blank=True, null=True, on_delete=models.CASCADE)
 	def __str__(self):
 		return self.name
+	def current_volume(self):
+		volume = 0
+		for item in self.packed_items.all():
+			volume += item.size
+		return volume
+	def remaining_volume(self):
+		return (self.size - self.current_volume())
 
 class Trip(models.Model):
 	name = models.CharField(max_length=100)
@@ -32,13 +49,9 @@ class Trip(models.Model):
 	profile = models.ForeignKey(Profile, blank=True, null=True, on_delete=models.CASCADE)
 	def __str__(self):
 		return self.name
-	
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-	if created:
-		Profile.objects.create(user=instance)
+class Packed(models.Model):
+	backpack = models.ForeignKey(Backpack, on_delete=models.CASCADE)
+	item = models.ForeignKey(Item, on_delete=models.CASCADE)
+	count = models.IntegerField(default=1)
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-	instance.profile.save()

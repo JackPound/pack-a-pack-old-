@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User 
 from .models import Trip, Backpack, Profile, Item
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm, SignupForm, TripForm
+from .forms import LoginForm, SignupForm, TripForm, BackpackForm
 # Create your views here.
 
 def signout(request):
@@ -66,7 +66,16 @@ def trip(request, trip_id):
 	return render(request, 'trip.html', {'trip': trip, 'packs': packs, 'unused_packs': unused_packs})
 
 def backpacks(request):
-	return render(request, 'backpacks.html')
+	form = BackpackForm()
+	p = Profile.objects.get(user=request.user)
+	packs = Backpack.objects.filter(profile = p)
+	return render(request, 'backpacks.html', {'packs': packs, 'form': form})
+
+def backpack(request, pack_id):
+	pack = Backpack.objects.get(id = pack_id)
+	packed_items = Item.objects.filter(backpack = pack_id)
+	all_items = Item.objects.all()
+	return render(request, 'backpack.html', {'pack': pack, 'packed_items':packed_items, 'all_items': all_items})
 
 def remove_pack(request, pack_id, trip_id):
 	trip = Trip.objects.get(id = trip_id)
@@ -81,9 +90,25 @@ def add_pack(request):
 	url = '/trips/'+str(request.POST['trip_id'])
 	return HttpResponseRedirect(url)
 
+def create_pack(request):
+	n = request.POST['name']
+	s = request.POST['size']
+	p = Profile.objects.get(user=request.user)
+	new_pack = Backpack.objects.create(name = n, size = s, profile = p)
+	return HttpResponseRedirect('/backpacks')
 
+def delete_pack(request, pack_id):
+	Backpack.objects.filter(id=pack_id).delete()
+	return HttpResponseRedirect('/backpacks')
 
+def pack_item(request, pack_id, item_id):
+	backpack = Backpack.objects.get(id = pack_id)
+	backpack.packed_items.add(item_id)
+	backpack.save()
+	url = '/backpacks/'+str(pack_id)
+	return HttpResponseRedirect(url)
 
-
+def unpack_item(request):
+	return HttpResponse('hi')
 
 
