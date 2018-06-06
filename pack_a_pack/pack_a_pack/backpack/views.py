@@ -62,17 +62,28 @@ def trips(request):
 def trip(request, trip_id):
 	trip = Trip.objects.get(id = trip_id)
 	packs = Backpack.objects.filter(trip = trip_id)
-	return render(request, 'trip.html', {'trip': trip, 'packs': packs})
+	unused_packs = Backpack.objects.exclude(trip = trip_id)
+	return render(request, 'trip.html', {'trip': trip, 'packs': packs, 'unused_packs': unused_packs})
 
 def backpacks(request):
 	return render(request, 'backpacks.html')
 
 def remove_pack(request, pack_id, trip_id):
-	return HttpResponse('hi')
- #  	{% for trip in trips %}
-	# 	<p>Trip name: {{ trip.name }}</p>
-	# 	<p>Location: {{trip.location}}</p>
-	# 	<p>Backpacks: {{trip.backpacks}}</p>
-	# 	<p>Notes: {{trip.notes}}</p>
-	# 	<hr />
-	# {% endfor %}
+	trip = Trip.objects.get(id = trip_id)
+	trip.backpacks.remove(pack_id)
+	url = '/trips/'+str(trip_id)
+	return HttpResponseRedirect(url)
+
+def add_pack(request):
+	trip = Trip.objects.get(id = request.POST['trip_id'])
+	trip.backpacks.add(request.POST['pack_id'])
+	trip.save()
+	url = '/trips/'+str(request.POST['trip_id'])
+	return HttpResponseRedirect(url)
+
+
+
+
+
+
+

@@ -8,5 +8,6 @@ urlpatterns = [
 	path('backpacks/', views.backpacks, name='backpacks'),
 	path('signup/', views.signup, name='signup'),
 	path('signout/', views.signout, name='signout'),
-	path('remove/<int:pack_id>/<int:trip_id>', views.remove_pack, name='remove')
+	path('remove/<int:pack_id>/<int:trip_id>', views.remove_pack, name='remove_pack'),
+	path('add_pack/', views.add_pack, name='add_pack')
 ]

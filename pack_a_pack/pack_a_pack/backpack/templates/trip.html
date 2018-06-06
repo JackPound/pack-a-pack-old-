@@ -9,7 +9,17 @@
 	{% for pack in packs %}
 	{{pack}} <a href="/remove/{{pack.id}}/{{trip.id}}">x</a>,
 	{% endfor %}</p>
-	<p> ADD/REMOVE PACKS FOR THIS TRIP HERE </p>
+	<form class="addPack" method="POST" action="/add_pack/">
+		{% csrf_token %}
+		<select name='pack_id' required>
+			<option value='' selected disabled hidden>Select One</option>
+			{% for pack in unused_packs %}
+			<option value={{pack.id}}>{{pack}}</option>
+			{% endfor %}
+		</select>
+		<input name='trip_id' hidden value={{trip.id}} />
+		<input type='submit' value='Add Pack' />
+	</form>
 	<p> Head to <a href="{% url 'backpacks' %}">backpack management</a> to pack your bags!</p>
 </div>
 {% endblock %}
