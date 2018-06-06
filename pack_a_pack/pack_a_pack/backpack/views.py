@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User 
 from .models import Trip, Backpack, Profile, Item
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm, SignupForm
+from .forms import LoginForm, SignupForm, TripForm
 # Create your views here.
 
 def signout(request):
@@ -45,10 +45,8 @@ def index(request):
 def trips(request):
 	this_user = Profile.objects.get(user=request.user)
 	trips = Trip.objects.filter(profile=this_user)
-
-	
-	print(trips)
-	return render(request, 'trips.html', {'trips': trips})
+	form = TripForm()
+	return render(request, 'trips.html', {'trips': trips, 'form': form})
 
 def trip(request, trip_id):
 	return render(request, 'trip.html', {'trip': trip_id})
