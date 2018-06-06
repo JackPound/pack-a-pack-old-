@@ -28,3 +28,12 @@
 .signupInfo {
 	text-align: center;
 }
+.singleTrip {
+	width: 60%;
+	text-align: justify;
+	margin: auto;
+}
+.desc {
+	font-weight: bold;
+	font-size: 1.1em;
+}

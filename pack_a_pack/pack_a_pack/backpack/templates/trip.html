@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1 class="pageHead">TRIP NUMBER {{ trip }}</h1>
-
+<h1 class="pageHead">{{ trip }}</h1>
+<div class="singleTrip">
+	<p><span class="desc">Location of trip:</span> {{trip.location}}</p>
+	<p><span class="desc">Notes:</span> {{trip.notes}}</p>
+	<p><span class="desc">Backpacks for trip:</span> 
+	{% for pack in packs %}
+	{{pack}} <a href="/remove/{{pack.id}}/{{trip.id}}">x</a>,
+	{% endfor %}</p>
+	<p> ADD/REMOVE PACKS FOR THIS TRIP HERE </p>
+	<p> Head to <a href="{% url 'backpacks' %}">backpack management</a> to pack your bags!</p>
+</div>
 {% endblock %}

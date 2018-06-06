@@ -7,5 +7,6 @@ urlpatterns = [
 	path('trips/<int:trip_id>/', views.trip, name='trip'),
 	path('backpacks/', views.backpacks, name='backpacks'),
 	path('signup/', views.signup, name='signup'),
-	path('signout/', views.signout, name='signout')
+	path('signout/', views.signout, name='signout'),
+	path('remove/<int:pack_id>/<int:trip_id>', views.remove_pack, name='remove')
 ]

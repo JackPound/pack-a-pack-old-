@@ -43,17 +43,32 @@ def index(request):
 		return render(request, 'index.html', {'form': form})
 
 def trips(request):
-	this_user = Profile.objects.get(user=request.user)
-	trips = Trip.objects.filter(profile=this_user)
-	form = TripForm()
-	return render(request, 'trips.html', {'trips': trips, 'form': form})
+	if request.method == 'POST':
+		form = TripForm(request.POST)
+		if form.is_valid():
+			na = form.cleaned_data['name']
+			l = form.cleaned_data['location']
+			no = form.cleaned_data['notes']
+			p = Profile.objects.get(user=request.user)
+			# print("name:",na,"location:",l,"notes:",no)
+			new_trip = Trip.objects.create(name = na, location = l, notes = no, profile = p)
+			return HttpResponseRedirect('/trips')
+	else:
+		this_user = Profile.objects.get(user=request.user)
+		trips = Trip.objects.filter(profile=this_user)
+		form = TripForm()
+		return render(request, 'trips.html', {'trips': trips, 'form': form})
 
 def trip(request, trip_id):
-	return render(request, 'trip.html', {'trip': trip_id})
+	trip = Trip.objects.get(id = trip_id)
+	packs = Backpack.objects.filter(trip = trip_id)
+	return render(request, 'trip.html', {'trip': trip, 'packs': packs})
 
 def backpacks(request):
 	return render(request, 'backpacks.html')
 
+def remove_pack(request, pack_id, trip_id):
+	return HttpResponse('hi')
  #  	{% for trip in trips %}
 	# 	<p>Trip name: {{ trip.name }}</p>
 	# 	<p>Location: {{trip.location}}</p>
