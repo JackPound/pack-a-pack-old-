@@ -35,8 +35,9 @@ class Backpack(models.Model):
 		return self.name
 	def current_volume(self):
 		volume = 0
-		for item in self.packed_items.all():
-			volume += item.size
+		stuff = Packed.objects.filter(backpack = self)
+		for each in stuff:
+			volume += each.item.size * each.count
 		return volume
 	def remaining_volume(self):
 		return (self.size - self.current_volume())
@@ -53,5 +54,5 @@ class Trip(models.Model):
 class Packed(models.Model):
 	backpack = models.ForeignKey(Backpack, on_delete=models.CASCADE)
 	item = models.ForeignKey(Item, on_delete=models.CASCADE)
-	count = models.IntegerField(default=1)
+	count = models.IntegerField(null=True)
 

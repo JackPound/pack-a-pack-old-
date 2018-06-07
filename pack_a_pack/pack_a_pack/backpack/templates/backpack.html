@@ -8,9 +8,9 @@
 </div>
 <div class="packedItems">
 	Name Size Remove
-	{% for item in packed_items %}
+	{% for each in packed_items %}
 		<div class="oneItem">
-			{{item}} {{item.size}} <a href='#'>x</a>
+			{{each.item}} {{each.item.size}} {{each.count}} <a href='/unpack_item/{{pack.id}}/{{each.id}}/'>x</a>
 		</div>
 	{% endfor %}
 </div>

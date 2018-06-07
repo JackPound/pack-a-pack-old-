@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User 
-from .models import Trip, Backpack, Profile, Item
+from .models import Trip, Backpack, Profile, Item, Packed
 from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm, SignupForm, TripForm, BackpackForm
 # Create your views here.
@@ -73,7 +73,7 @@ def backpacks(request):
 
 def backpack(request, pack_id):
 	pack = Backpack.objects.get(id = pack_id)
-	packed_items = Item.objects.filter(backpack = pack_id)
+	packed_items = Packed.objects.filter(backpack = pack)
 	all_items = Item.objects.all()
 	return render(request, 'backpack.html', {'pack': pack, 'packed_items':packed_items, 'all_items': all_items})
 
@@ -102,13 +102,30 @@ def delete_pack(request, pack_id):
 	return HttpResponseRedirect('/backpacks')
 
 def pack_item(request, pack_id, item_id):
-	backpack = Backpack.objects.get(id = pack_id)
-	backpack.packed_items.add(item_id)
-	backpack.save()
+	backpack = Backpack.objects.get(id=pack_id)
+	item = Item.objects.get(id=item_id)
+	try:
+		Packed.objects.get(backpack=backpack, item=item)
+		print('hit try')
+		existing_item = Packed.objects.get(backpack=pack_id, item=item_id)
+		existing_item.count += 1
+		existing_item.save()
+		print(existing_item.count)
+	except:
+		Packed.objects.create(backpack=backpack, item=item, count=1)
 	url = '/backpacks/'+str(pack_id)
 	return HttpResponseRedirect(url)
 
-def unpack_item(request):
-	return HttpResponse('hi')
+def unpack_item(request, pack_id, each_id):
+	packed = Packed.objects.get(id=each_id)
+	packed.count -= 1
+	if packed.count == 0:
+		packed.delete()
+	else:
+		packed.save()
+	print(packed.item)
+	print(packed.backpack)
+	url = '/backpacks/'+str(pack_id)
+	return HttpResponseRedirect(url)
 
 

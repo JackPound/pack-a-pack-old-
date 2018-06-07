@@ -14,5 +14,5 @@ urlpatterns = [
 	path('create_pack/', views.create_pack, name='create_pack'),
 	path('delete_pack/<int:pack_id>', views.delete_pack, name='delete_pack'),
 	path('pack_item/<int:pack_id>/<int:item_id>/', views.pack_item, name='pack_item'),
-	path('unpack_item/', views.unpack_item, name='unpack_item')
+	path('unpack_item/<int:pack_id>/<int:each_id>/', views.unpack_item, name='unpack_item')
 ]
