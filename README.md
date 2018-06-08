@@ -23,7 +23,6 @@ Track your trips, backpacks, and the items packed in them!
 * Functionality related to backpack space. A meter display for how packed it is, and explicit notifications when it is overpacked.
 * Add 404 page.
 * Add about or other refrences to my work.
-* Make meaningful home page with popular games as rated on IGDB.
 
 # Tech Used
 * Python
