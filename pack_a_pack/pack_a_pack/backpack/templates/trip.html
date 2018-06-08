@@ -2,7 +2,7 @@
 {% block content %}
 
 <h1 class="pageHead">{{ trip }}</h1>
-<div class="singleTrip">
+<div class="indexBody">
 	<p><span class="desc">Location of trip:</span> {{trip.location}}</p>
 	<p><span class="desc">Notes:</span> {{trip.notes}}</p>
 	<p><span class="desc">Backpacks for trip:</span> 
@@ -20,6 +20,6 @@
 		<input name='trip_id' hidden value={{trip.id}} />
 		<input type='submit' value='Add Pack' />
 	</form>
-	<p> Head to <a href="{% url 'backpacks' %}">backpack management</a> to pack your bags!</p>
+	<p> Head to <a href="{% url 'backpacks' %}">backpack management</a> to create and pack your bags!</p>
 </div>
 {% endblock %}

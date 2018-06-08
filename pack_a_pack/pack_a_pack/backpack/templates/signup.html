@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1 class="pageHead">SIGNUP</h1>
-
-<form class="loginForm" method="POST" action=".">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<input type="submit" value="Signup" />
-</form>
-
+<h1 class="pageHead">Signup Form</h1>
+<h3 class="indexIntro">The first step of your trip starts here.</h3>
+<div class="indexBody">
+	<form class="loginForm" method="POST" action=".">
+		<p>Sign up here</p>
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Signup" />
+	</form>
+	<hr />
+	<p class="signupInfo">Back to <a href="/">home</a> page</p>
+</div>
 {% endblock %}

@@ -1,18 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<h1 class="pageHead">pack-a-pack</h1>
-<p class="indexIntro">An app to plan out space and track what's in your backpack!</p>
-
-<hr />
-<form method="POST" action="." class="loginForm">
-	<p> Login Here </p>
-	{% csrf_token %}
-	{{ form.as_p }}
-	<input type="submit" value="Login" />
-</form>
-<hr />
-
-<p class="signupInfo">If you do not have an account signup <a href="/signup">here</a> </p>
-
+	<h1 class="pageHead">pack-a-pack</h1>
+	<h3 class="indexIntro">An app to plan out space and track what's in your backpack!</h3>
+{% if not user.is_authenticated %}
+	<div class="indexBody">
+		<form method="POST" action="." class="loginForm">
+			<p> Login Here </p>
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="Login" />
+		</form>
+		<hr />
+		<p class="signupInfo">If you do not have an account signup <a href="/signup">here</a></p>
+	</div>
+{% endif %}
+	<div class="indexBody">
+		 <p class="subP">Pack-a-pack is an app designed for any backpacker from the seasoned trekker to the first time traveler.</p>
+		 <p class="subP">List your upcoming trips and the backpacks you own, then virtually pack your bags from our list of common backpacking items. Items have a rough estimated size, so you can easily decide what you have space for on your trip!</p>
+{% if user.is_authenticated %}
+		<hr />
+		<p class="subP">To get started head over and create a <a href="{% url 'trips' %}">trip</a> then add your <a href="{% url 'backpacks' %}">backpacks</a>!</p>
+{% endif %}
+	</div>
 {% endblock %}

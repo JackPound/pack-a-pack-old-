@@ -2,19 +2,20 @@
 {% block content %}
 
 <h1 class="pageHead">BACKPACKS</h1>
+<h3 class="indexIntro">Manage your existing packs, or add new ones</h3>
 {% for pack in packs %}
 	<div class="singlePack">
-		<p><a href='/backpacks/{{pack.id}}'>{{pack.name}}</a> <a style="float:right;color:red;" href="/delete_pack/{{pack.id}}">X</a></p>
+		<p><a href='/backpacks/{{pack.id}}'>{{pack.name}}</a> <a style="float:right;color:red;margin-right:7px;" href="/delete_pack/{{pack.id}}">X</a></p>
 		<p>Total Pack Space: {{pack.size}}</p>
 		<p>Remaining Space: {{pack.remaining_volume}}</p>
 	</div>
 {% endfor %}
-
-<hr />
-<h2 class="pageHead">Create New Backpack</h2>
-	<form method="POST" action="/create_pack/" class="backpackForm">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<input type="submit" value="Create" />
-	</form>
+<div class="indexBody">
+	<h2 class="pageHead">Create New Backpack</h2>
+		<form method="POST" action="/create_pack/" class="loginForm">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="Create" />
+		</form>
+</div>
 {% endblock %}

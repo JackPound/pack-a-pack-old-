@@ -2,6 +2,7 @@
 {% block content %}
 
 	<h1 class="pageHead">My Trips</h1>
+	<h3 class="indexIntro">Manage your existing trips, or add new ones</h3>
   	<div class="allTrips">
   		{% for trip in trips %}
 		<div class="oneTrip">
@@ -10,11 +11,12 @@
 		</div>
 		{% endfor %}
 	</div>
-	<hr />
-	<h2>Add a new trip</h2>
-	<form method="POST" action="." class="tripForm">
+<div class="indexBody">
+	<form method="POST" action="." class="loginForm">
+		<p>Add your next trip!</p>
 		{% csrf_token %}
 		{{ form.as_p }}
 		<input type="submit" value="Create" />
 	</form>
+</div>
 {% endblock %}

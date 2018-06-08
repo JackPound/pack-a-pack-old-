@@ -6,20 +6,33 @@
 	<h1>{{pack.name}}</h1>
 	<p style="font-weight:bold;">Total Space: {{pack.size}} || Used Space: {{pack.current_volume}} || Remaining Space: {{pack.remaining_volume}}</p>
 </div>
-<div class="packedItems">
-	Name Size Remove
-	{% for each in packed_items %}
-		<div class="oneItem">
-			{{each.item}} {{each.item.size}} {{each.count}} <a href='/unpack_item/{{pack.id}}/{{each.id}}/'>x</a>
+<div class="packingScreen">
+	<div class="itemsList">
+		<div class="oneItem" style="border:none;">
+		<div class="itemName">Name</div><div class="itemSize">Size</div><div class="itemCount">Count</div>Remove
 		</div>
-	{% endfor %}
-</div>
-<div class="allItems">
-	Name Size Add
-	{% for item in all_items %}
-		<div class="oneItem">
-			{{item}} {{item.size}} <a href='/pack_item/{{pack.id}}/{{item.id}}/'>+</a>
+		<hr />
+		{% for each in packed_items %}
+			<div class="oneItem">
+				<div class="itemName">{{each.item}}</div>
+				<div class="itemSize">{{each.item.size}}</div>
+				<div class="itemCount">{{each.count}}</div>
+				<a class="remove" href='/unpack_item/{{pack.id}}/{{each.id}}/'>x</a>
+			</div>
+		{% endfor %}
+	</div>
+	<div class="itemsList">
+		<div class="oneItem" style="border:none;">
+		<div class="itemName">Name</div><div class="itemSize">Size</div>Add
 		</div>
-	{% endfor %}
+		<hr />
+		{% for item in all_items %}
+			<div class="oneItem">
+				<div class="itemName">{{item}}</div>
+				<div class="itemSize">{{item.size}}</div>
+				<a class="add" href='/pack_item/{{pack.id}}/{{item.id}}/'>+</a>
+			</div>
+		{% endfor %}
+	</div>
 </div>
 {% endblock %}

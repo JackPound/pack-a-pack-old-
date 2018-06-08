@@ -17,8 +17,17 @@ def signup(request):
 			u = form.cleaned_data['username']
 			p = form.cleaned_data['password']
 			e = form.cleaned_data['email']
-			user = User.objects.create_user(e,p,u)
-		return HttpResponse('HI')
+			user = User.objects.create_user(u,e,p)
+			user = authenticate(username = u, password = p)
+			if user is not None:
+				if user.is_active:
+					login(request, user)
+					return HttpResponseRedirect('/')
+				else:
+					print('Account disabled / deleted')
+			else:
+				print('Invalid Credentials')
+			return HttpResponseRedirect('/')
 	else:
 		form = SignupForm()
 		return render(request, 'signup.html', {'form': form})
@@ -60,9 +69,15 @@ def trips(request):
 		return render(request, 'trips.html', {'trips': trips, 'form': form})
 
 def trip(request, trip_id):
+	profile = Profile.objects.get(user = request.user)
 	trip = Trip.objects.get(id = trip_id)
 	packs = Backpack.objects.filter(trip = trip_id)
-	unused_packs = Backpack.objects.exclude(trip = trip_id)
+	print('profile',profile.user.username)
+	print(request.user.id)
+	try:
+		unused_packs = Backpack.objects.filter(profile = profile).exclude(trip = trip_id)
+	except:
+		unused_packs = []
 	return render(request, 'trip.html', {'trip': trip, 'packs': packs, 'unused_packs': unused_packs})
 
 def backpacks(request):
@@ -73,8 +88,8 @@ def backpacks(request):
 
 def backpack(request, pack_id):
 	pack = Backpack.objects.get(id = pack_id)
-	packed_items = Packed.objects.filter(backpack = pack)
-	all_items = Item.objects.all()
+	packed_items = Packed.objects.order_by('item__name').filter(backpack = pack)
+	all_items = Item.objects.order_by('name').all()
 	return render(request, 'backpack.html', {'pack': pack, 'packed_items':packed_items, 'all_items': all_items})
 
 def remove_pack(request, pack_id, trip_id):
@@ -106,7 +121,6 @@ def pack_item(request, pack_id, item_id):
 	item = Item.objects.get(id=item_id)
 	try:
 		Packed.objects.get(backpack=backpack, item=item)
-		print('hit try')
 		existing_item = Packed.objects.get(backpack=pack_id, item=item_id)
 		existing_item.count += 1
 		existing_item.save()

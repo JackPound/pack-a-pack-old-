@@ -6,13 +6,15 @@
  	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 </head>
 <body>
+		{% if user.is_authenticated %}
 	<nav class="navbar">
 		<a href="/">Home</a>
-		<a href="{% url 'backpacks' %}">Packs</a>
-		<a href="{% url 'trips' %}">Trips</a>
-		<a href="{% url 'signout' %}">Logout</a>
-		{{user.username }}
+		||<a href="{% url 'backpacks' %}">Packs</a>
+		||<a href="{% url 'trips' %}">Trips</a>
+		||<a href="{% url 'signout' %}">Logout</a>
+		|| Logged in as: {{user.username }}
 	</nav>
+		{% endif %}
 	{% block content %}
 	{% endblock %}
 
