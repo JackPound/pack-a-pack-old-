@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1 class="pageHead">BACKPACKS</h1>
+<h1 class="pageHead">My Backpacks</h1>
 <h3 class="indexIntro">Manage your existing packs, or add new ones</h3>
-{% for pack in packs %}
-	<div class="singlePack">
-		<p><a href='/backpacks/{{pack.id}}'>{{pack.name}}</a> <a style="float:right;color:red;margin-right:7px;" href="/delete_pack/{{pack.id}}">X</a></p>
-		<p>Total Pack Space: {{pack.size}}</p>
-		<p>Remaining Space: {{pack.remaining_volume}}</p>
-	</div>
-{% endfor %}
+<div class='allPacks'>
+	{% for pack in packs %}
+		<div class="singlePack">
+			<p><a href='/backpacks/{{pack.id}}'>{{pack.name}}</a> <a style="float:right;color:red;margin-right:7px;" href="/delete_pack/{{pack.id}}">X</a></p>
+			<p>Total Pack Space: {{pack.size}}</p>
+			<p>Remaining Space: {{pack.remaining_volume}}</p>
+		</div>
+	{% endfor %}
+</div>
 <div class="indexBody">
 	<h2 class="pageHead">Create New Backpack</h2>
 		<form method="POST" action="/create_pack/" class="loginForm">

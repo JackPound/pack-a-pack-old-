@@ -42,7 +42,7 @@ def index(request):
 			if user is not None:
 				if user.is_active:
 					login(request, user)
-					return HttpResponseRedirect('/trips')
+					return HttpResponseRedirect('/')
 				else:
 					print('Account disabled / deleted')
 			else:

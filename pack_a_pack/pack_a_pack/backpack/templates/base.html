@@ -3,22 +3,23 @@
 <html>
 <head>
 	<title>pack-a-pack</title>
+	<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
  	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 </head>
 <body>
 		{% if user.is_authenticated %}
 	<nav class="navbar">
 		<a href="/">Home</a>
-		||<a href="{% url 'backpacks' %}">Packs</a>
-		||<a href="{% url 'trips' %}">Trips</a>
-		||<a href="{% url 'signout' %}">Logout</a>
-		|| Logged in as: {{user.username }}
+		<a href="{% url 'backpacks' %}">Packs</a>
+		<a href="{% url 'trips' %}">Trips</a>
+		<a href="{% url 'signout' %}">Logout</a>
+		{{user.username }}
 	</nav>
 		{% endif %}
 	{% block content %}
 	{% endblock %}
 
-	<footer class="footer">jack p</footer>
+	<footer class="footer">&copy; 2019 | Jack Pound Jr</footer>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="{% static 'app.js' %}"></script>
 </body>
